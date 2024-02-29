@@ -10,7 +10,7 @@ const register =async (req,res) => {
         phone,
         gender,
         roles } =req.body;
-
+        console.log("hello")
         const foundUser = await User.findOne({ email }).exec();
         if(foundUser)
         {
@@ -58,9 +58,11 @@ const login=  async(req,res)=>{
             return res.status(401).json({msg:"Wrong Password"})
         }
     req.user = foundUser
-    console.log("req.iuesrjxhsjdd ",req.user)
+    // console.log("req.iuesrjxhsjdd ",req.user)
     const accessToken = jwt.sign({
-            user:foundUser
+            user:foundUser,
+            roles: foundUser.roles
+           
            
         },process.env.ACCESS_TOKEN_SECRET,{expiresIn:"60d"})
         console.log(foundUser._id)
@@ -75,7 +77,7 @@ const login=  async(req,res)=>{
             sameSite:"None",
             maxAge: 90*24*60*60*1000
         })
-        res.json({accessToken,email:foundUser.email})
+        res.json({accessToken,email:foundUser.email,roles: foundUser.roles})
 }
 
 

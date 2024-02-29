@@ -6,43 +6,43 @@ const verifyJWT= require('../middleware/verifyJWT')
 const jwt=require('jsonwebtoken');
 const Category= require('../models/category')
 const mongoose=require('mongoose')
-// const multerStorage=multer.diskStorage({
-//     destination:(req,file,cb)=>{
-//         cb(null,'public')
-//     },
-//     filename:(req,file,cb)=>{
-// const ext=file.mimetype.split('/')[1]
-
-// cb(null,`user-${req.currentUser.id}-${Date.now()}.${ext}`)
-//     }
-// })
-
-// const multerFilter=(req,file,cb)=>{
-//     if(file.mimetype.startsWith('image'))
-//     {
-//         cb(null,true)
-//     }else{
-//         cb('not a image please upload only images ',false)
-//     }
+const upload =require('../middleware/cloudinaryConfig')
 
 
-// }
 
-// const upload=multer({
-//     storage:multerStorage,
-//     fileFilter:multerFilter
-// });
+const getAllProducts = async (req, res) => {
+    try {
+        const allProducts = await Content.find().populate('category').exec();
+        res.json(allProducts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+      
  const createImage=async (req, res) => {
+   
+
     const category1 = await Category.findById(req.body.category)
     if(!category1)
     {
         return res.status(404).json({msg:"invalid category"})
     }
-    const { title, description ,price,category} = req.body;
 
+    const { title, description ,price,category} = req.body;
+    
 
     try {
-        const newContent = await Content.create({ title, description,price,category,imageUrl:req.file.path });
+        const cloudinaryResult = await upload(req.file);
+
+        const newContent = await Content.create({
+            title: title,
+            description : description,
+            price: price,
+            category :category,
+            imageUrl: cloudinaryResult.secure_url
+        })
         res.json(newContent);
     } catch (err) {
         console.error(err);
@@ -88,6 +88,7 @@ const DeleteContent =async (req, res) => {
 
 
 module.exports={
+    getAllProducts,
     createImage,
     UpdateContent,
     DeleteContent,

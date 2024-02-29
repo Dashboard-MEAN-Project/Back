@@ -1,20 +1,3 @@
-// const cloudinary = require('cloudinary')
-
-// const dotenv = require('dotenv')
-// cloudinary.config({
-//     cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
-//     api_key:process.env.CLOUDINARY_API_KEY,
-//     api_secret:process.env.CLOUDINARY_API_SECRET 
-// })
-
-
-// exports.uploads = (file) =>{
-//     return new Promise(resolve => {
-//     cloudinary.uploader.upload(file, (result) =>{
-//     resolve({url: result.url, id: result.public_id})
-//     }, {resource_type: "auto"})
-//     })
-// }
 
 
 const cloudinaryModule = require('cloudinary');
@@ -30,21 +13,11 @@ cloudinary.config({
   });
 
 
-// const uploadToCloudinary = async (file) => {
-//       console.log("cloudinary",file.path)
-//     let result= await cloudinary.uploader.upload(file.path,{
-//         folder: 'samples',
-//         use_filename: true,
-//         resource_type: 'raw'
-//         }
-// };
-// module.exports = {
-//     uploadToCloudinary
-// };
+
 let uploadMedia = async(file) => {
     // if()
-  console.log("file path ", file.path);
-  console.log(process.env.CLOUDINARY_CLOUD_NAME+" jghghgh")
+  // console.log("file path ", file.path);
+  // console.log(process.env.CLOUDINARY_CLOUD_NAME+" jghghgh")
     if (file.path) {
       
       // if (isImageFile || isVideoFile) {              

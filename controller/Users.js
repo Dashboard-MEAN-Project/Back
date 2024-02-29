@@ -9,12 +9,31 @@ if(!users)
 res.json(users)
 }
 
+
+const GetUserById = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const user = await Users.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+
 const Updateuser = async (req, res) => {
     const  userId  = req.params.userId;
-    const { username, email } = req.body;
-console.log(userId+"88888888888888888888888888888888888888888")
+    const { username,roles } = req.body;
+
     try {
-        const updatedUser = await Users.findByIdAndUpdate(userId, { username},req.body, { new: true });
+        const updatedUser = await Users.findByIdAndUpdate(userId, { username,roles},req.body, { new: true });
         res.json(updatedUser);
     } catch (err) {
         console.error(err);
@@ -36,7 +55,8 @@ const Deactivateuser = async (req, res) => {
 };
 
 
-
+// "email":"monaa123@gmail.com",
+    // "password":"123456666"
 
 
  const Deleteuser=async (req, res) => {
@@ -52,6 +72,7 @@ const Deactivateuser = async (req, res) => {
 };
 
 module.exports={
+    GetUserById,
     getAllusers,
     Deactivateuser,
     Updateuser,

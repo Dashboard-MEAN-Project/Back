@@ -12,22 +12,23 @@ var userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        required: true,
+        // required: true,
+        // required: true,
         // unique: true,
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
     },
     phone: {
         type: String,
-        // required: true,
+        //  required: true,
     },
    
     gender:{
         type:String,
-        enum:['male','female']
+        enum:['male','female'],
+       
     },
     isActive: {
         type: Boolean,
